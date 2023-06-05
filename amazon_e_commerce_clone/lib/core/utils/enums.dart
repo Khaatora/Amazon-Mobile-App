@@ -1,4 +1,6 @@
-enum Auth{
-  signin,
-  signup,
+enum LoadingState{
+  init,
+  loading,
+  loaded,
+  error,
 }
