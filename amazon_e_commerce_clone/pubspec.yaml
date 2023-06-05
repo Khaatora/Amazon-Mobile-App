@@ -35,6 +35,8 @@ dependencies:
   hexcolor: ^3.0.1
   equatable: ^2.0.5
   get_it: ^7.6.0
+  dartz: ^0.10.1
+  dio: ^5.1.1
 
 
   # The following adds the Cupertino Icons font to your application.
