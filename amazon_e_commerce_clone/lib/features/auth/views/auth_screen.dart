@@ -1,7 +1,6 @@
 import 'package:amazon_e_commerce_clone/core/constants/app_colors.dart';
 import 'package:amazon_e_commerce_clone/core/reusable_components/custom_textfiled.dart';
 import 'package:amazon_e_commerce_clone/core/reusable_components/primary_custom_elevatedbutton.dart';
-import 'package:amazon_e_commerce_clone/core/utils/enums.dart';
 import 'package:amazon_e_commerce_clone/features/auth/view_models/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -189,15 +188,37 @@ class _AuthViewState extends State<AuthView> {
           )),
     );
   }
+
   //TODO: s
-  String? _nameValidator(String? name) {}
+  String? _nameValidator(String? name) {
+    if (name == null || name.isEmpty) {
+      return "Please Enter Valid Name";
+    }
+    return null;
+  }
 
-  String? _emailValidator(String? email) {}
+  String? _emailValidator(String? email) {
+    if (email == null ||
+        !RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            .hasMatch(email)) {
+      return "Please Enter Valid Name";
+    }
+    return null;
+  }
 
-  String? _passwordValidator(String? password) {}
+  String? _passwordValidator(String? password) {
+    if (password == null || password.length < 6) {
+      return "Please Enter Valid Password";
+    }
+    return null;
+  }
 
   void _signUp() {
-
+    if (_signupFormKey.currentState!.validate()) {
+      AuthCubit.get(context).signup(
+        _nameController.text, _emailController.text, _passwordController.text,);
+    }
   }
 
   void _signIn() {
