@@ -17,21 +17,21 @@ class AuthRepositoryImpl implements IAuthRepository{
 
   @override
   Future<Either<IFailure, LoginResponse>> login(LoginParams params) async {
+    // TODO: implement signup
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<IFailure, SignupResponse>> signup(SignupParams params) async {
     try {
-      final response = await remoteDataSource.login(params);
+      final response = await remoteDataSource.signup(params);
       return Right(response);
     } on ServerException catch (failure) {
       return left(ServerFailure(failure.message));
     } catch(e){
-      log(e.toString());
+      log("${e.toString()} <<>> $e");
       return left(const ServerFailure("unknown error occurred"));
     }
-  }
-
-  @override
-  Future<Either<IFailure, SignupResponse>> signup(SignupParams params) {
-    // TODO: implement signup
-    throw UnimplementedError();
   }
 
 }
