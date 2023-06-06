@@ -1,7 +1,6 @@
 import 'package:amazon_e_commerce_clone/core/utils/enums.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../repository/i_auth_repository.dart';
@@ -23,8 +22,9 @@ class AuthCubit extends Cubit<AuthState> {
       name: name,
       password: password,
     ));
-
-    result.fold((l) => emit(state.copyWith(loadingState: LoadingState.error)),
+    result.fold(
+        (l) => emit(state.copyWith(
+            loadingState: LoadingState.error, message: l.message)),
         (r) => emit(state.copyWith(loadingState: LoadingState.loaded)));
   }
 
