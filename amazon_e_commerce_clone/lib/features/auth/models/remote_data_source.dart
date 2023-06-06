@@ -1,12 +1,13 @@
 import 'dart:convert';
+import 'dart:developer';
 
-import 'package:amazon_e_commerce_clone/core/errors/exceptions/api/login_exceptions.dart';
 import 'package:amazon_e_commerce_clone/features/auth/models/login/login_response.dart';
 import 'package:amazon_e_commerce_clone/features/auth/models/signup/signup_response.dart';
 import 'package:amazon_e_commerce_clone/features/auth/repository/i_auth_repository.dart';
 import 'package:dio/dio.dart';
 
 import '../../../core/constants/api_constants.dart';
+import '../../../core/errors/exceptions/api/signup_exceptions.dart';
 import '../../../core/services/services_locator.dart';
 
 abstract class RemoteDataSource{
@@ -25,16 +26,22 @@ class APIRemoteDataSource implements RemoteDataSource{
 
   @override
   Future<SignupResponse> signup(SignupParams params) async {
-    final response = await sl<Dio>().post(ApiConstants.signupUrl(),data: jsonEncode(params.toJson()));
-    switch(response.statusCode){
-      case 200:
-        return SignupResponse.fromJson(jsonDecode(response.data));
-      case 400:
-        throw InvalidCredentialsException(jsonDecode(response.data)["msg"]);
-      case 500:
-        throw InternalServerException(jsonDecode(response.data)["error"]);
-      default:
-        throw const GenericAPIException();
+    try {
+      final response = await sl<Dio>().post(ApiConstants.signupUrl(),data: jsonEncode(params.toJson()));
+      return SignupResponse.fromJson(response.data);
+    } on DioError catch(error){
+      switch(error.response!.statusCode){
+        case 400:
+          throw InvalidCredentialsException(error.response?.data["msg"]);
+        case 500:
+          throw InternalServerException(error.response?.data["error"]);
+        default:
+          throw const GenericAPIException();
+      }
+    }
+    catch (e) {
+      log("$e");
+      rethrow;
     }
   }
 
