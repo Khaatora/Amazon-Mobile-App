@@ -1,6 +1,7 @@
 class SignupResponse {
   final String id;
   final String name;
+  final String email;
   final String password;
   final String address;
   final String type;
@@ -9,6 +10,7 @@ class SignupResponse {
   SignupResponse({
     required this.id,
     required this.name,
+    required this.email,
     required this.password,
     required this.address,
     required this.type,
@@ -19,10 +21,11 @@ class SignupResponse {
     return SignupResponse(
       id: json[SignupJsonKeys.id],
       name: json["name"],
+      email: json["email"],
       password: json["password"],
       address: json["address"],
       type: json["type"],
-      token: json["token"],
+      token: json["token"] ?? "N/A",
     );
   }
 
