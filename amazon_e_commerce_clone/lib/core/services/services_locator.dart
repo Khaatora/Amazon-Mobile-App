@@ -20,7 +20,7 @@ class ServicesLocator{
     // Dio
     sl.registerLazySingleton<Dio>(() => Dio(
       BaseOptions(
-        baseUrl: ApiConstants.baseUrl,
+        baseUrl: ApiPaths.baseUrl,
         contentType: "application/json; charset=UTF-8",
         connectTimeout: const Duration(seconds: 20),
         sendTimeout: const Duration(seconds: 20),
