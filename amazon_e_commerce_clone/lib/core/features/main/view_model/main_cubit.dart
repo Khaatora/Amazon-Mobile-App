@@ -1,11 +1,11 @@
-import 'package:amazon_e_commerce_clone/core/main/repository/i_main_repository.dart';
 import 'package:amazon_e_commerce_clone/core/utils/enums.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../../features/auth/models/local_data_source.dart';
+import '../../../../features/auth/models/local_data_source.dart';
 import '../model/app_user.dart';
+import '../repository/i_main_repository.dart';
 
 part 'main_state.dart';
 

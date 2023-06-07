@@ -1,15 +1,16 @@
 import 'package:amazon_e_commerce_clone/core/constants/api_paths.dart';
-import 'package:amazon_e_commerce_clone/core/main/repository/i_main_repository.dart';
-import 'package:amazon_e_commerce_clone/core/main/repository/main_repository_impl.dart';
-import 'package:amazon_e_commerce_clone/core/main/view_model/main_cubit.dart';
 import 'package:amazon_e_commerce_clone/features/auth/models/local_data_source.dart';
-import 'package:amazon_e_commerce_clone/core/main/model/remote_data_source.dart';
 import 'package:amazon_e_commerce_clone/features/auth/repository/auth_repository_impl.dart';
 import 'package:amazon_e_commerce_clone/features/auth/repository/i_auth_repository.dart';
 import 'package:amazon_e_commerce_clone/features/auth/view_models/auth_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../features/main/model/remote_data_source.dart';
+import '../features/main/repository/i_main_repository.dart';
+import '../features/main/repository/main_repository_impl.dart';
+import '../features/main/view_model/main_cubit.dart';
 
 final sl = GetIt.instance;
 

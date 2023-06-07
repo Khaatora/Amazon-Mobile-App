@@ -1,4 +1,4 @@
-import '../../constants/keys.dart';
+import '../../../constants/keys.dart';
 import 'app_user.dart';
 
 class GetUserDataResponse{

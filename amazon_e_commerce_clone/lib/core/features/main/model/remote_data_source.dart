@@ -6,10 +6,10 @@ import 'package:amazon_e_commerce_clone/features/auth/models/signup/signup_respo
 import 'package:amazon_e_commerce_clone/features/auth/repository/i_auth_repository.dart';
 import 'package:dio/dio.dart';
 
-import '../../constants/api_paths.dart';
-import '../../errors/exceptions/api/signup_exceptions.dart';
-import '../../errors/exceptions/server_exception.dart';
-import '../../services/services_locator.dart';
+import '../../../constants/api_paths.dart';
+import '../../../errors/exceptions/api/login_exceptions.dart';
+import '../../../errors/exceptions/server_exception.dart';
+import '../../../services/services_locator.dart';
 import 'get_user_data_response.dart';
 
 abstract class RemoteDataSource{

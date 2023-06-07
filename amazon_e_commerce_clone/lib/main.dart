@@ -2,12 +2,12 @@ import 'dart:developer';
 
 import 'package:amazon_e_commerce_clone/core/constants/app_routes.dart';
 import 'package:amazon_e_commerce_clone/core/global/app_theme.dart';
-import 'package:amazon_e_commerce_clone/core/main/view_model/main_cubit.dart';
 import 'package:amazon_e_commerce_clone/core/services/services_locator.dart';
 import 'package:amazon_e_commerce_clone/core/utils/general_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'core/features/main/view_model/main_cubit.dart';
 import 'core/utils/enums.dart';
 
 void main() async {
