@@ -28,6 +28,18 @@ class AuthCubit extends Cubit<AuthState> {
         (r) => emit(state.copyWith(loadingState: LoadingState.loaded)));
   }
 
+  Future<void> login(String email, String password) async {
+    emit(state.copyWith(loadingState: LoadingState.loading));
+    final result = await authRepository.login(LoginParams(
+      email: email,
+      password: password,
+    ));
+    result.fold(
+        (l) => emit(state.copyWith(
+            loadingState: LoadingState.error, message: l.message)),
+        (r) => emit(state.copyWith(loadingState: LoadingState.loaded)));
+  }
+
   void setAuthType(Auth auth) {
     if (state.authType != auth) {
       emit(state.copyWith(authType: auth, loadingState: LoadingState.init));

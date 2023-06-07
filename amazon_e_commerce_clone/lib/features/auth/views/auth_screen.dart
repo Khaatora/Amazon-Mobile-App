@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:amazon_e_commerce_clone/core/constants/app_colors.dart';
+import 'package:amazon_e_commerce_clone/core/constants/app_routes.dart';
 import 'package:amazon_e_commerce_clone/core/reusable_components/custom_textfiled.dart';
 import 'package:amazon_e_commerce_clone/core/reusable_components/primary_custom_elevatedbutton.dart';
 import 'package:amazon_e_commerce_clone/core/utils/general_utils.dart';
@@ -83,6 +84,14 @@ class _AuthViewState extends State<AuthView> {
                     case LoadingState.loaded:
                       context.showCustomSnackBar("Done!",
                           const Duration(seconds: 1, milliseconds: 500));
+                      switch (state.authType) {
+                        case Auth.signin:
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, AppRoutes.homeScreen, (route) => false);
+                          break;
+                        case Auth.signup:
+                          break;
+                      }
                       break;
                     case LoadingState.error:
                       context.showCustomSnackBar(
@@ -160,7 +169,7 @@ class _AuthViewState extends State<AuthView> {
                                     ),
                                     //Password TextField
                                     CustomTextField(
-                                        controller: _emailController,
+                                        controller: _passwordController,
                                         hintText: "Password",
                                         autocorrect: false,
                                         enableSuggestions: false,
@@ -232,7 +241,7 @@ class _AuthViewState extends State<AuthView> {
                                       height: kMinInteractiveDimension,
                                       child: BlocBuilder<AuthCubit, AuthState>(
                                         builder: (context, state) {
-                                          switch(state.loadingState){
+                                          switch (state.loadingState) {
                                             case LoadingState.init:
                                             case LoadingState.error:
                                             case LoadingState.loaded:
@@ -241,7 +250,10 @@ class _AuthViewState extends State<AuthView> {
                                                 text: "Sign Up",
                                               );
                                             case LoadingState.loading:
-                                              return const Center(child: CircularProgressIndicator.adaptive(),);
+                                              return const Center(
+                                                child: CircularProgressIndicator
+                                                    .adaptive(),
+                                              );
                                           }
                                         },
                                       ),
@@ -295,5 +307,13 @@ class _AuthViewState extends State<AuthView> {
     }
   }
 
-  void _signIn() {}
+  void _signIn() {
+    if (_signinFormKey.currentState!.validate()) {
+      log("validated");
+      AuthCubit.get(context).login(
+        _emailController.text,
+        _passwordController.text,
+      );
+    }
+  }
 }

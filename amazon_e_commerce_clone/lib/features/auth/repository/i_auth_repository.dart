@@ -28,6 +28,9 @@ class SignupParams {
 
 class LoginParams {
   final String email;
+  final String password;
+
+  LoginParams({required this.email, required this.password});
 
   Map<String, dynamic> toJson() {
     return {
@@ -35,8 +38,4 @@ class LoginParams {
       "password": password,
     };
   }
-
-  final String password;
-
-  LoginParams({required this.email, required this.password});
 }
