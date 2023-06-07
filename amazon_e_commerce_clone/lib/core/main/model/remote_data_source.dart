@@ -25,7 +25,7 @@ class APIRemoteDataSource implements RemoteDataSource{
   @override
   Future<LoginResponse> login(LoginParams params) async {
     try {
-      final response = await sl<Dio>().post(ApiConstants.signinUrl(),data: jsonEncode(params.toJson()));
+      final response = await sl<Dio>().post(ApiPaths.signinUrl(),data: jsonEncode(params.toJson()));
       return LoginResponse.fromJson(response.data);
     } on DioError catch(error){
       switch(error.response!.statusCode){
@@ -46,14 +46,14 @@ class APIRemoteDataSource implements RemoteDataSource{
   @override
   Future<GetUserDataResponse> verifyToken(String token) async {
     try {
-      final response = await sl<Dio>().post(ApiConstants.verifyTokenUrl(), options: Options(
+      final response = await sl<Dio>().post(ApiPaths.verifyTokenUrl(), options: Options(
         headers: {
           Headers.contentTypeHeader: "application/json; charset=UTF-8",
           "x-auth-token": token,
         }
       ));
       if(response.data){
-        final dataResponse = await sl<Dio>().get(ApiConstants.getUserDataUrl(), options: Options(
+        final dataResponse = await sl<Dio>().get(ApiPaths.getUserDataUrl(), options: Options(
           headers: {
             Headers.contentTypeHeader: "application/json; charset=UTF-8",
             "x-auth-token": token,
@@ -82,7 +82,7 @@ class APIRemoteDataSource implements RemoteDataSource{
   @override
   Future<SignupResponse> signup(SignupParams params) async {
     try {
-      final response = await sl<Dio>().post(ApiConstants.signupUrl(),data: jsonEncode(params.toJson()));
+      final response = await sl<Dio>().post(ApiPaths.signupUrl(),data: jsonEncode(params.toJson()));
       return SignupResponse.fromJson(response.data);
     } on DioError catch(error){
       switch(error.response!.statusCode){
