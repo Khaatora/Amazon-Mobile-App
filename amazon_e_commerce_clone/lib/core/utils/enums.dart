@@ -4,3 +4,9 @@ enum LoadingState{
   loaded,
   error,
 }
+
+enum BottomNavScreen{
+  a,
+  b,
+  c
+}
