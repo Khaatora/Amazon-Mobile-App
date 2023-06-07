@@ -2,13 +2,13 @@ import 'dart:developer';
 
 import 'package:amazon_e_commerce_clone/core/constants/app_colors.dart';
 import 'package:amazon_e_commerce_clone/core/constants/app_routes.dart';
-import 'package:amazon_e_commerce_clone/core/reusable_components/custom_textfiled.dart';
-import 'package:amazon_e_commerce_clone/core/reusable_components/primary_custom_elevatedbutton.dart';
 import 'package:amazon_e_commerce_clone/core/utils/general_utils.dart';
 import 'package:amazon_e_commerce_clone/features/auth/view_models/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/global/components/reusable_components/custom_textfiled.dart';
+import '../../../core/global/components/reusable_components/primary_custom_elevatedbutton.dart';
 import '../../../core/services/services_locator.dart';
 import '../../../core/utils/enums.dart';
 
