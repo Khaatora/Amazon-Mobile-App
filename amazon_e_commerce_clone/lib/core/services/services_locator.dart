@@ -1,16 +1,21 @@
-import 'package:amazon_e_commerce_clone/core/constants/api_constants.dart';
-import 'package:amazon_e_commerce_clone/features/auth/models/remote_data_source.dart';
+import 'package:amazon_e_commerce_clone/core/constants/api_paths.dart';
+import 'package:amazon_e_commerce_clone/core/main/repository/i_main_repository.dart';
+import 'package:amazon_e_commerce_clone/core/main/repository/main_repository_impl.dart';
+import 'package:amazon_e_commerce_clone/core/main/view_model/main_cubit.dart';
+import 'package:amazon_e_commerce_clone/features/auth/models/local_data_source.dart';
+import 'package:amazon_e_commerce_clone/core/main/model/remote_data_source.dart';
 import 'package:amazon_e_commerce_clone/features/auth/repository/auth_repository_impl.dart';
 import 'package:amazon_e_commerce_clone/features/auth/repository/i_auth_repository.dart';
 import 'package:amazon_e_commerce_clone/features/auth/view_models/auth_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
 
 class ServicesLocator{
 
-  void init(){
+  Future<void> init() async{
 
     // Dio
     sl.registerLazySingleton<Dio>(() => Dio(
@@ -23,13 +28,31 @@ class ServicesLocator{
       ),
     ));
 
-    // Bloc/Cubit
-    sl.registerFactory<AuthCubit>(() => AuthCubit(sl()));
+    // shared_prefs
+    await _initSharedPrefs();
 
     // Repository
-    sl.registerLazySingleton<IAuthRepository>(() => AuthRepositoryImpl(sl()));
+    sl.registerLazySingleton<IAuthRepository>(() => AuthRepositoryImpl(sl<RemoteDataSource>(), sl<LocalDataSource>()));
+    sl.registerLazySingleton<IMainRepository>(() => MainRepositoryImpl(sl()));
 
     // Data Source
     sl.registerLazySingleton<RemoteDataSource>(() => APIRemoteDataSource());
+    sl.registerLazySingleton<LocalDataSource>(() => SharedPrefsLocalDataSource());
+
+    // Bloc/Cubit
+    sl.registerFactory<AuthCubit>(() => AuthCubit(sl()));
+    await _initApp();
+
+
+  }
+
+  Future<void> _initSharedPrefs() async {
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    sl.registerSingleton<SharedPreferences>(sharedPref);
+  }
+
+  Future<void> _initApp() async {
+    await sl.registerSingleton<MainCubit>(MainCubit(sl(), sl())).initState();
+
   }
 }
