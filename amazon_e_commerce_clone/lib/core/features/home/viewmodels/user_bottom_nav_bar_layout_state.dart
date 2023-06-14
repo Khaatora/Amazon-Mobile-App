@@ -1,26 +1,30 @@
-part of 'home_cubit.dart';
+part of 'user_bottom_nav_bar_layout_cubit.dart';
 
 @immutable
-class HomeState {
+class UserBottomNavBarLayoutState {
   final LoadingState loadingState;
-  final BottomNavScreen bottomNavScreen;
+  final UserBottomNavScreen bottomNavScreen;
+  final double bottomNavBarItemWidth;
+  final double bottomNavBarItemBorderWidth;
   final int currentIndex;
   final String message;
 
-  const HomeState({
+  const UserBottomNavBarLayoutState({
     this.loadingState = LoadingState.init,
-    this.bottomNavScreen = BottomNavScreen.a,
+    this.bottomNavScreen = UserBottomNavScreen.a,
     this.currentIndex = 0,
     this.message = "",
+    this.bottomNavBarItemWidth = 42.0,
+    this.bottomNavBarItemBorderWidth = 5.0,
   });
 
-  HomeState copyWith({
+  UserBottomNavBarLayoutState copyWith({
     LoadingState? loadingState,
-    BottomNavScreen? bottomNavScreen,
+    UserBottomNavScreen? bottomNavScreen,
     int? currentIndex,
     String? message,
   }) {
-    return HomeState(
+    return UserBottomNavBarLayoutState(
       loadingState: loadingState ?? this.loadingState,
       bottomNavScreen: bottomNavScreen ?? this.bottomNavScreen,
       currentIndex: currentIndex ?? this.currentIndex,
