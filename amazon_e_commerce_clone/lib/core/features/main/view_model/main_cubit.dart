@@ -1,5 +1,6 @@
 import 'package:amazon_e_commerce_clone/core/utils/enums.dart';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 

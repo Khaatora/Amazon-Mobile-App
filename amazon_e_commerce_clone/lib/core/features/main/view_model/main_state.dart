@@ -1,7 +1,7 @@
 part of 'main_cubit.dart';
 
 @immutable
-class MainState {
+class MainState extends Equatable{
   final AppUser user;
   final LoadingState loadingState;
   final String message;
@@ -37,6 +37,13 @@ class MainState {
     loadingState: loadingState ?? this.loadingState,
     message: message ?? this.message);
   }
+
+  @override
+  List<Object?> get props => [
+    user,
+    loadingState,
+    message,
+  ];
 }
 
 
