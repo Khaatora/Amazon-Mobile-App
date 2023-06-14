@@ -38,6 +38,10 @@ dependencies:
   dartz: ^0.10.1
   dio: ^5.1.1
   shared_preferences: ^2.1.1
+  badges: ^3.1.1
+  carousel_slider: ^4.2.1
+  dotted_border: ^2.0.0+3
+  file_picker: ^5.3.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -67,8 +71,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
