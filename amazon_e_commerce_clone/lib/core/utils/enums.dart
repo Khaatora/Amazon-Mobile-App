@@ -5,8 +5,18 @@ enum LoadingState{
   error,
 }
 
-enum BottomNavScreen{
+enum UserBottomNavScreen{
   a,
   b,
   c
+}
+
+enum AdminBottomNavScreen{
+  a,
+  b,
+  c
+}
+enum MenuItem{
+  wishlists,
+  logout
 }
