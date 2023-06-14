@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 class AppTheme{
 
   static final ThemeData light = ThemeData(
+    useMaterial3: true,
     colorScheme: const ColorScheme.light(
       primary: AppColors.secondaryColor,
     ),
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
       elevation: 0,
-      iconTheme: IconThemeData(color: Colors.black),
+      iconTheme: IconThemeData(color: Colors.black,),
     ),
   );
 
