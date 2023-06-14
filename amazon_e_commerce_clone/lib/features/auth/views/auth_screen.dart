@@ -87,7 +87,7 @@ class _AuthViewState extends State<AuthView> {
                       switch (state.authType) {
                         case Auth.signin:
                           Navigator.pushNamedAndRemoveUntil(
-                              context, AppRoutes.homeScreen, (route) => false);
+                              context, AppRoutes.userScreen, (route) => false);
                           break;
                         case Auth.signup:
                           break;
