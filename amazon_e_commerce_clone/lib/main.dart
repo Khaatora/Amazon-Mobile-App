@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           title: 'E-Commerce App',
           theme: AppTheme.light,
           initialRoute: state.loadingState == LoadingState.loaded
-              ? AppRoutes.homeScreen
+              ? (state.user.type != "user" ? AppRoutes.userScreen : AppRoutes.adminScreen)
               : AppRoutes.authScreen,
           debugShowCheckedModeBanner: false,
           onGenerateRoute: (routeSettings) =>
