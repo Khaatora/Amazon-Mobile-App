@@ -1,4 +1,6 @@
 import 'package:amazon_e_commerce_clone/core/constants/api_paths.dart';
+import 'package:amazon_e_commerce_clone/core/features/home/viewmodels/admin_bottom_nav_bar_layout_cubit.dart';
+import 'package:amazon_e_commerce_clone/features/admin/posts/viewmodels/add_products_cubit.dart';
 import 'package:amazon_e_commerce_clone/features/auth/models/local_data_source.dart';
 import 'package:amazon_e_commerce_clone/features/auth/repository/auth_repository_impl.dart';
 import 'package:amazon_e_commerce_clone/features/auth/repository/i_auth_repository.dart';
@@ -7,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../features/home/viewmodels/user_bottom_nav_bar_layout_cubit.dart';
 import '../features/main/model/remote_data_source.dart';
 import '../features/main/repository/i_main_repository.dart';
 import '../features/main/repository/main_repository_impl.dart';
@@ -23,9 +26,9 @@ class ServicesLocator{
       BaseOptions(
         baseUrl: ApiPaths.baseUrl,
         contentType: "application/json; charset=UTF-8",
-        connectTimeout: const Duration(seconds: 20),
-        sendTimeout: const Duration(seconds: 20),
-        receiveTimeout: const Duration(seconds: 20),
+        connectTimeout: const Duration(seconds: 10),
+        sendTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
       ),
     ));
 
@@ -42,6 +45,9 @@ class ServicesLocator{
 
     // Bloc/Cubit
     sl.registerFactory<AuthCubit>(() => AuthCubit(sl()));
+    sl.registerLazySingleton<UserBottomNavBarLayoutCubit>(() => UserBottomNavBarLayoutCubit());
+    sl.registerLazySingleton<AdminBottomNavBarLayoutCubit>(() => AdminBottomNavBarLayoutCubit());
+    sl.registerLazySingleton<AddProductsCubit>(() => AddProductsCubit());
     await _initApp();
 
 
