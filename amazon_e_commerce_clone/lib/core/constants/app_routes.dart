@@ -1,7 +1,7 @@
-import 'package:amazon_e_commerce_clone/features/admin/posts/view/components/add_product_screen.dart';
 import 'package:amazon_e_commerce_clone/features/auth/views/auth_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/admin/products/view/components/add_product_screen.dart';
 import '../features/home/views/admin_bottom_nav_bar_layout.dart';
 import '../features/home/views/user_bottom_nar_bar_layout.dart';
 

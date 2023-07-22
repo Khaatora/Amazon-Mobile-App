@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:amazon_e_commerce_clone/core/constants/app_colors.dart';
 import 'package:amazon_e_commerce_clone/core/constants/app_routes.dart';
+import 'package:amazon_e_commerce_clone/core/features/main/view_model/main_cubit.dart';
 import 'package:amazon_e_commerce_clone/core/utils/general_utils.dart';
 import 'package:amazon_e_commerce_clone/features/auth/view_models/auth_cubit.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +33,8 @@ class AuthView extends StatefulWidget {
 }
 
 class _AuthViewState extends State<AuthView> {
-  GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
-  GlobalKey<FormState> _signinFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _signupFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _signinFormKey = GlobalKey<FormState>();
 
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
@@ -45,6 +46,17 @@ class _AuthViewState extends State<AuthView> {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      var mainCubitState = MainCubit.get(context).state;
+      if(mainCubitState.loadingState == LoadingState.error){
+        log("Main class >>>>>>>>>>>>>>${mainCubitState.message}<<<<<<<<<<<<<");
+        context.showCustomSnackBar(
+          mainCubitState.message,
+          const Duration(seconds: 2),
+          Colors.red,
+        );
+      }
+    });
   }
 
   @override
@@ -112,42 +124,52 @@ class _AuthViewState extends State<AuthView> {
                       style:
                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
-                    ListTile(
-                      tileColor: state.authType == Auth.signup
-                          ? AppColors.backgroundColor
-                          : AppColors.greyBackgroundCOlor,
-                      title: const Text(
-                        'Create Account',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      leading: Radio(
-                        value: Auth.signup,
-                        groupValue: state.authType,
-                        onChanged: (Auth? value) {
-                          if (value != null) {
-                            AuthCubit.get(context).setAuthType(value);
-                          }
-                        },
-                        activeColor: AppColors.secondaryColor,
+                    GestureDetector(
+                      onTap: () {
+                        AuthCubit.get(context).setAuthType(Auth.signup);
+                      },
+                      child: ListTile(
+                        tileColor: state.authType == Auth.signup
+                            ? AppColors.backgroundColor
+                            : AppColors.greyBackgroundCOlor,
+                        title: const Text(
+                          'Create Account',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        leading: Radio(
+                          value: Auth.signup,
+                          groupValue: state.authType,
+                          onChanged: (Auth? value) {
+                            if (value != null) {
+                              AuthCubit.get(context).setAuthType(value);
+                            }
+                          },
+                          activeColor: AppColors.secondaryColor,
+                        ),
                       ),
                     ),
-                    ListTile(
-                      tileColor: state.authType == Auth.signin
-                          ? AppColors.backgroundColor
-                          : AppColors.greyBackgroundCOlor,
-                      title: const Text(
-                        'Sign In',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      leading: Radio(
-                        value: Auth.signin,
-                        groupValue: state.authType,
-                        onChanged: (Auth? value) {
-                          if (value != null) {
-                            AuthCubit.get(context).setAuthType(value);
-                          }
-                        },
-                        activeColor: AppColors.secondaryColor,
+                    GestureDetector(
+                      onTap: () {
+                        AuthCubit.get(context).setAuthType(Auth.signin);
+                      },
+                      child: ListTile(
+                        tileColor: state.authType == Auth.signin
+                            ? AppColors.backgroundColor
+                            : AppColors.greyBackgroundCOlor,
+                        title: const Text(
+                          'Sign In',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        leading: Radio(
+                          value: Auth.signin,
+                          groupValue: state.authType,
+                          onChanged: (Auth? value) {
+                            if (value != null) {
+                              AuthCubit.get(context).setAuthType(value);
+                            }
+                          },
+                          activeColor: AppColors.secondaryColor,
+                        ),
                       ),
                     ),
                     Expanded(

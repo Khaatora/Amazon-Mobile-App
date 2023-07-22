@@ -59,14 +59,18 @@ class APIRemoteDataSource implements RemoteDataSource{
             "x-auth-token": token,
           }
         ));
+        log(dataResponse.data.toString());
         return GetUserDataResponse.fromJson(dataResponse.data);
       }
       else{
         throw const InvalidTokenException();
       }
     } on DioError catch(error){
-      log("${error.message}, stacktrace: ${error.stackTrace}");
-      switch(error.response!.statusCode){
+      log("code: ${error.response?.statusCode},message: ${error.message},type: ${error.type}, stacktrace: ${error.stackTrace}");
+      if(error.type == DioErrorType.connectionTimeout){
+        throw const InternalServerException("Can't connect to servers at the moment, please try again later");
+      }
+      switch(error.response?.statusCode){
         case 500:
           throw InternalServerException(error.response?.data["error"]);
         default:

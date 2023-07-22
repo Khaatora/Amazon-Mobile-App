@@ -21,6 +21,7 @@ class AuthCubit extends Cubit<AuthState> {
       email: email,
       name: name,
       password: password,
+      type: "admin",
     ));
     result.fold(
         (l) => emit(state.copyWith(

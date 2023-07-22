@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     this.validator,
     this.textInputType,
+    this.textInputAction,
     this.obscureText = false,
     this.autocorrect = true,
     this.enableSuggestions = true,
@@ -23,6 +24,7 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final String? Function(String?)? validator;
   final TextInputType? textInputType;
+  final TextInputAction? textInputAction;
   final bool obscureText;
   final bool autocorrect;
   final bool enableSuggestions;
@@ -45,6 +47,7 @@ class CustomTextField extends StatelessWidget {
           ),
       validator: validator,
       keyboardType: textInputType ?? TextInputType.name,
+      textInputAction: textInputAction,
       obscureText: obscureText,
       autocorrect: autocorrect,
       minLines: minLines,

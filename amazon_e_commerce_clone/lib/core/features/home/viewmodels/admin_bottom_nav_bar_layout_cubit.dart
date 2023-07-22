@@ -1,9 +1,8 @@
-import 'package:amazon_e_commerce_clone/features/admin/posts/view/products_screen.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../features/admin/products/view/products_screen.dart';
 import '../../../utils/enums.dart';
 
 part 'admin_bottom_nav_bar_layout_state.dart';

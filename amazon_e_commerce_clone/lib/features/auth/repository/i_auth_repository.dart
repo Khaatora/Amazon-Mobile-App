@@ -14,8 +14,9 @@ class SignupParams {
   final String email;
   final String name;
   final String password;
+  final String type;
 
-  SignupParams({required this.email, required this.name, required this.password});
+  SignupParams({required this.email, required this.name, required this.password, required this.type});
 
   Map<String, dynamic> toJson() {
     return {

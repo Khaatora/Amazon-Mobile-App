@@ -29,14 +29,16 @@ class MainCubit extends Cubit<MainState> {
               loadingState: LoadingState.error,
               message: l.message,
             )),
-        (r) => emit(state.copyWith(
-              token: tempToken,
-              loadingState: LoadingState.loaded,
-              type: r.user.type,
-              address: r.user.address,
-              email: r.user.email,
-              name: r.user.name,
-            )));
+        (r) {
+          emit(state.copyWith(
+            token: tempToken,
+            loadingState: LoadingState.loaded,
+            type: r.user.type,
+            address: r.user.address,
+            email: r.user.email,
+            name: r.user.name,
+          ));
+        });
   }
 
   void setToken(String token) {
@@ -45,9 +47,9 @@ class MainCubit extends Cubit<MainState> {
     );
   }
 
-  void setEmail(String Email) {
+  void setEmail(String email) {
     state.copyWith(
-      token: Email,
+      token: email,
     );
   }
 
