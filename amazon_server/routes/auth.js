@@ -8,7 +8,7 @@ const authRouter = express.Router();
 
 //Sign up route
 authRouter.post('/api/signup', async (req, res)=>{
-    const {email, password, name} = req.body;
+    const {email, password, name, type} = req.body;
     try{
         const existingUser = await User.findOne({email});
         if(existingUser){
@@ -20,6 +20,7 @@ authRouter.post('/api/signup', async (req, res)=>{
             email,
             password : hashedPassword,
             name,
+            type,
         });
         user = await user.save();
         console.log(user);
@@ -39,26 +40,28 @@ authRouter.post('/api/signin', async (req, res)=>{
         if(!user){
             return res.status(400).json({msg: "invalid credentials"});
         }
-        const matchs = await bcryptjs.compare(password, user.password);
-        if(!matchs){
+        const matches = await bcryptjs.compare(password, user.password);
+        if(!matches){
             return res.status(400).json({msg: "invalid password"});
         }
         const token = jwt.sign({id: user._id}, "passwordKey");
+        console.log(`>>>>>>>>>${user._id}<<<<<<<<<<`);
         res.json({token, ...user._doc});
     }catch (e){
         res.status(500).json({error: e});
     }
 });
 
-authRouter.post('/api/validateToken', async (req, res)=>{
+authRouter.post('/api/validate-token', async (req, res)=>{
     try{
         const token = req.header('x-auth-token');
+        console.log(`token: ${token}`);
         if(!token) return res.json(false);
         const verified = jwt.verify(token, 'passwordKey');        
         if(!verified) return res.json(false);
-
         const user = await User.findById(verified.id);
         if(!user) return res.json(false);
+        console.log(`>>>>>>>>>${user._id}<<<<<<<<<<`);
         res.json(true);
     }catch (e){
         res.status(500).json({error: e});
