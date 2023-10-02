@@ -11,7 +11,7 @@ import 'core/utils/enums.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await ServicesLocator().init();
+  await const ServicesLocator().init();
   runApp(MultiBlocProvider(providers: [
     BlocProvider<MainCubit>(
       create: (context) => sl<MainCubit>(),
@@ -31,11 +31,14 @@ class MyApp extends StatelessWidget {
         log("Main class >>>>>>>>>>>>>>${state.message}<<<<<<<<<<<<<");
       },
       builder: (context, state) {
+        log(state.user.type);
         return MaterialApp(
           title: 'E-Commerce App',
           theme: AppTheme.light,
-          initialRoute: state.loadingState == LoadingState.loaded
-              ? (state.user.type == "user" ? AppRoutes.userScreen : AppRoutes.adminScreen)
+          darkTheme: AppTheme.dark,
+          themeMode: ThemeMode.light,
+          initialRoute: state.loadingState == LoadingState.loaded && state.user.token.isNotEmpty
+              ? (state.user.type == UserType.user.name ? AppRoutes.userScreen : AppRoutes.adminScreen)
               : AppRoutes.authScreen,
           debugShowCheckedModeBanner: false,
           onGenerateRoute: (routeSettings) =>

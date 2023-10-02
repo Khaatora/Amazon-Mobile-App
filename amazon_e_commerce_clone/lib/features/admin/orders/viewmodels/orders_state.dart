@@ -1,27 +1,32 @@
 part of 'orders_cubit.dart';
 
 class OrdersState extends Equatable {
-  final LoadingState loadingState;
+  final LoadingState getOrdersLoadingState;
+  final List<Order>? orders;
   final String message;
 
+  const OrdersState({
+    this.getOrdersLoadingState = LoadingState.init,
+    this.message = '',
+    this.orders,
+  });
 
-  const OrdersState({this.loadingState = LoadingState.init, this.message = ''});
-
-
-
-  OrdersState copyWith({
-    LoadingState? loadingState,
-    String? message,
-  }) {
+  OrdersState copyWith(
+      {LoadingState? getOrdersLoadingState,
+      String? message,
+      List<Order>? orders}) {
     return OrdersState(
-      loadingState: loadingState ?? this.loadingState,
+      getOrdersLoadingState:
+          getOrdersLoadingState ?? this.getOrdersLoadingState,
       message: message ?? this.message,
+      orders: orders ?? this.orders,
     );
   }
 
   @override
-  List<Object> get props => [
-    loadingState,
-    message,
-  ];
+  List get props => [
+        getOrdersLoadingState,
+        message,
+        orders,
+      ];
 }

@@ -13,3 +13,6 @@ class InternalServerException extends ServerException{
 class InvalidTokenException extends ServerException{
   const InvalidTokenException([super.message = "Invalid Token"]);
 }
+class OutOfStockException extends ServerException{
+  const OutOfStockException([super.message = "Out Of Stock!"]);
+}

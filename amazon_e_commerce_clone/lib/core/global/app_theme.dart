@@ -11,8 +11,16 @@ class AppTheme{
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
       elevation: 0,
-      iconTheme: IconThemeData(color: Colors.black,),
+      iconTheme: IconThemeData(color: AppColors.black,),
     ),
+    iconButtonTheme: const IconButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStatePropertyAll<Color>(
+          AppColors.secondaryColor
+        )
+      )
+    ),
+
   );
 
   static final ThemeData dark = ThemeData(

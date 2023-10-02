@@ -12,11 +12,25 @@ enum UserBottomNavScreen{
 }
 
 enum AdminBottomNavScreen{
-  a,
-  b,
-  c
+  Home,
+  Orders,
+  Analytics,
+
 }
 enum MenuItem{
   wishlists,
   logout
+}
+
+enum UserType{
+  admin,
+  user
+}
+
+enum CartLoadingState{
+  init,
+  adding,
+  removing,
+  done,
+  error,
 }

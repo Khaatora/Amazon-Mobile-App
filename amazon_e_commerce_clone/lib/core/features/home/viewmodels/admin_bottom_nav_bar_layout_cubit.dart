@@ -1,8 +1,11 @@
+import 'package:amazon_e_commerce_clone/features/admin/analytics/view/analytics_screen.dart';
+import 'package:amazon_e_commerce_clone/features/admin/orders/view/orders_screen.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../features/admin/products/view/products_screen.dart';
+import '../../../services/services_locator.dart';
 import '../../../utils/enums.dart';
 
 part 'admin_bottom_nav_bar_layout_state.dart';
@@ -15,11 +18,18 @@ class AdminBottomNavBarLayoutCubit extends Cubit<AdminBottomNavBarLayoutState> {
 
   List<Widget> get pages => [
     const ProductsScreen(),
-    const Center(child: Text("Analytics Page"),),
-    const Center(child: Text("Orders Page"),),
+    const OrdersScreen(),
+    const AnalyticsScreen(),
   ];
 
   void updateIndex(int index){
+    if(isClosed)return;
     emit(state.copyWith(currentIndex: index));
+  }
+
+  @override
+  Future<void> close() {
+    sl.unregister<AdminBottomNavBarLayoutCubit>();
+    return super.close();
   }
 }

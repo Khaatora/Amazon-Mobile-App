@@ -1,4 +1,5 @@
 import 'package:amazon_e_commerce_clone/core/constants/app_colors.dart';
+import 'package:amazon_e_commerce_clone/core/features/main/view_model/main_cubit.dart';
 import 'package:amazon_e_commerce_clone/core/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,9 +13,14 @@ class UserBottomNavBarLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<UserBottomNavBarLayoutCubit>(),
-      child: const BottomNavBarView(),
-    );
+        create: (context) {
+          if (!sl.isRegistered<UserBottomNavBarLayoutCubit>()) {
+            sl.registerLazySingleton<UserBottomNavBarLayoutCubit>(() =>
+                UserBottomNavBarLayoutCubit());
+          }
+          return sl<UserBottomNavBarLayoutCubit>();
+        },
+        child: const BottomNavBarView(),);
   }
 }
 
@@ -23,36 +29,41 @@ class BottomNavBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBottomNavBarLayoutCubit, UserBottomNavBarLayoutState>(
+    return BlocBuilder<UserBottomNavBarLayoutCubit,
+        UserBottomNavBarLayoutState>(
       buildWhen: (previous, current) =>
       current.currentIndex != previous.currentIndex,
       builder: (context, state) {
         return Scaffold(
-          body: UserBottomNavBarLayoutCubit.get(context).pages[state.currentIndex],
+          body: UserBottomNavBarLayoutCubit
+              .get(context)
+              .pages[state.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
               currentIndex: state.currentIndex,
               selectedItemColor: AppColors.selectedNavBarColor,
               unselectedItemColor: AppColors.unselectedNavBarColor,
               backgroundColor: AppColors.backgroundColor,
               iconSize: 28,
-              onTap: UserBottomNavBarLayoutCubit.get(context).updateIndex,
+              onTap: UserBottomNavBarLayoutCubit
+                  .get(context)
+                  .updateIndex,
               items: [
                 //HOME
                 BottomNavigationBarItem(
-                    label: UserBottomNavScreen.values[0].name,
-                    icon: Container(
-                      width: state.bottomNavBarItemWidth,
-                      decoration: BoxDecoration(
-                        border: Border(
-                            top: BorderSide(
-                              color: state.currentIndex == 0
-                                  ? AppColors.selectedNavBarColor
-                                  : AppColors.backgroundColor,
-                              width: state.bottomNavBarItemBorderWidth,
-                            )),
-                      ),
-                      child: const Icon(Icons.home_outlined),
+                  label: UserBottomNavScreen.values[0].name,
+                  icon: Container(
+                    width: state.bottomNavBarItemWidth,
+                    decoration: BoxDecoration(
+                      border: Border(
+                          top: BorderSide(
+                            color: state.currentIndex == 0
+                                ? AppColors.selectedNavBarColor
+                                : AppColors.backgroundColor,
+                            width: state.bottomNavBarItemBorderWidth,
+                          )),
                     ),
+                    child: const Icon(Icons.home_outlined),
+                  ),
                 ),
                 //CART
                 BottomNavigationBarItem(
@@ -68,13 +79,19 @@ class BottomNavBarView extends StatelessWidget {
                               width: state.bottomNavBarItemBorderWidth,
                             )),
                       ),
-                      child: const badges.Badge(
-                        badgeContent: Text('2'),
-                        badgeStyle: badges.BadgeStyle(
-                          elevation: 0,
-                          badgeColor: Colors.white,
-                        ),
-                        child: Icon(Icons.shopping_cart_outlined),),
+                      child: BlocBuilder<MainCubit, MainState>(
+                        buildWhen: (previous, current) =>
+                        current.user.cart != previous.user.cart,
+                        builder: (context, state) {
+                          return badges.Badge(
+                            badgeContent: Text("${state.user.cart.length}"),
+                            badgeStyle: const badges.BadgeStyle(
+                              elevation: 0,
+                              badgeColor: Colors.white,
+                            ),
+                            child: const Icon(Icons.shopping_cart_outlined),);
+                        },
+                      ),
                     )),
                 //ACCOUNT
                 BottomNavigationBarItem(

@@ -48,13 +48,10 @@ class _AuthViewState extends State<AuthView> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       var mainCubitState = MainCubit.get(context).state;
-      if(mainCubitState.loadingState == LoadingState.error){
+      if (mainCubitState.loadingState == LoadingState.error) {
         log("Main class >>>>>>>>>>>>>>${mainCubitState.message}<<<<<<<<<<<<<");
         context.showCustomSnackBar(
-          mainCubitState.message,
-          const Duration(seconds: 2),
-          Colors.red,
-        );
+            mainCubitState.message, const Duration(seconds: 2), AppColors.red);
       }
     });
   }
@@ -96,10 +93,14 @@ class _AuthViewState extends State<AuthView> {
                     case LoadingState.loaded:
                       context.showCustomSnackBar("Done!",
                           const Duration(seconds: 1, milliseconds: 500));
+                      log(state.type.name);
                       switch (state.authType) {
                         case Auth.signin:
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, AppRoutes.userScreen, (route) => false);
+                          if(state.type == UserType.user){
+                            Navigator.popAndPushNamed(context, AppRoutes.userScreen);
+                          }else{
+                            Navigator.popAndPushNamed(context, AppRoutes.adminScreen);
+                          }
                           break;
                         case Auth.signup:
                           break;
@@ -112,7 +113,7 @@ class _AuthViewState extends State<AuthView> {
                             seconds: 1,
                             milliseconds: 500,
                           ),
-                          Colors.red);
+                          AppColors.red);
                       break;
                   }
                 },
@@ -131,7 +132,7 @@ class _AuthViewState extends State<AuthView> {
                       child: ListTile(
                         tileColor: state.authType == Auth.signup
                             ? AppColors.backgroundColor
-                            : AppColors.greyBackgroundCOlor,
+                            : AppColors.greyBackgroundColor,
                         title: const Text(
                           'Create Account',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -155,7 +156,7 @@ class _AuthViewState extends State<AuthView> {
                       child: ListTile(
                         tileColor: state.authType == Auth.signin
                             ? AppColors.backgroundColor
-                            : AppColors.greyBackgroundCOlor,
+                            : AppColors.greyBackgroundColor,
                         title: const Text(
                           'Sign In',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -259,6 +260,9 @@ class _AuthViewState extends State<AuthView> {
                                     const SizedBox(
                                       height: 8,
                                     ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
                                     SizedBox(
                                       height: kMinInteractiveDimension,
                                       child: BlocBuilder<AuthCubit, AuthState>(
@@ -294,7 +298,6 @@ class _AuthViewState extends State<AuthView> {
     );
   }
 
-  //TODO: s
   String? _nameValidator(String? name) {
     if (name == null || name.isEmpty) {
       return "Please Enter Valid Name";

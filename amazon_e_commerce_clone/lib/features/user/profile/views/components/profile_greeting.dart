@@ -18,14 +18,14 @@ class ProfileGreeting extends StatelessWidget {
             text: "Hello, ",
             style: const TextStyle(
               fontSize: 22,
-              color: Colors.black,
+              color: AppColors.black,
             ),
             children: [
               TextSpan(
                   text: MainCubit.get(context).state.user.name,
                   style: const TextStyle(
                     fontSize: 22,
-                    color: Colors.black,
+                    color: AppColors.black,
                     fontWeight: FontWeight.w600
                   ),
               )

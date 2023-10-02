@@ -9,6 +9,7 @@ extension UnFocusKeyboardFromScope on BuildContext {
 
 extension ShowSnackBar on BuildContext {
   void showCustomSnackBar(String text, Duration? duration, [Color? color]) {
+    ScaffoldMessenger.of(this).hideCurrentSnackBar();
     ScaffoldMessenger.of(this).showSnackBar(SnackBar(
       backgroundColor: color,
       duration: duration ?? const Duration(seconds: 4),

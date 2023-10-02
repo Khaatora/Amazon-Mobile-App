@@ -1,3 +1,4 @@
+import 'package:amazon_e_commerce_clone/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ProfileOutlinedButton extends StatelessWidget {
@@ -20,7 +21,7 @@ class ProfileOutlinedButton extends StatelessWidget {
         ),
         child: OutlinedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.black12.withOpacity(0.03),
+            backgroundColor: AppColors.black.withOpacity(0.03),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             )
@@ -29,7 +30,7 @@ class ProfileOutlinedButton extends StatelessWidget {
           child: Text(
             text,
             style: const TextStyle(
-              color: Colors.black,
+              color: AppColors.black,
               fontWeight: FontWeight.normal,
             ),
           ),

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../features/user/cart/views/cart_screen.dart';
 import '../../../../features/user/home/views/home_screen.dart';
 import '../../../../features/user/profile/views/profile_screen.dart';
+import '../../../services/services_locator.dart';
 
 part 'user_bottom_nav_bar_layout_state.dart';
 
@@ -22,5 +23,11 @@ class UserBottomNavBarLayoutCubit extends Cubit<UserBottomNavBarLayoutState> {
 
   void updateIndex(int index){
     emit(state.copyWith(currentIndex: index));
+  }
+
+  @override
+  Future<void> close() {
+    sl.unregister<UserBottomNavBarLayoutCubit>();
+    return super.close();
   }
 }

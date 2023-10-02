@@ -1,11 +1,12 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../core/errors/failures/IFailures.dart';
-import '../models/login/login_response.dart';
-import '../models/signup/signup_response.dart';
+import '../models/response_models/login_response.dart';
+import '../models/response_models/signup_response.dart';
 
 abstract class IAuthRepository{
   Future<Either<IFailure, LoginResponse>> login(LoginParams params);
+
 
   Future<Either<IFailure, SignupResponse>> signup(SignupParams params);
 }
@@ -16,7 +17,7 @@ class SignupParams {
   final String password;
   final String type;
 
-  SignupParams({required this.email, required this.name, required this.password, required this.type});
+  const SignupParams({required this.email, required this.name, required this.password, required this.type});
 
   Map<String, dynamic> toJson() {
     return {
@@ -31,7 +32,7 @@ class LoginParams {
   final String email;
   final String password;
 
-  LoginParams({required this.email, required this.password});
+  const LoginParams({required this.email, required this.password});
 
   Map<String, dynamic> toJson() {
     return {

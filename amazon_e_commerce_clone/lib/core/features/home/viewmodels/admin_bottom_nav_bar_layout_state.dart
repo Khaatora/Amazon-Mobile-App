@@ -10,7 +10,7 @@ class AdminBottomNavBarLayoutState extends Equatable {
 
   const AdminBottomNavBarLayoutState({
     this.loadingState = LoadingState.init,
-    this.bottomNavScreen = AdminBottomNavScreen.a,
+    this.bottomNavScreen = AdminBottomNavScreen.Home,
     this.currentIndex = 0,
     this.message = "",
     this.bottomNavBarItemWidth = 42.0,

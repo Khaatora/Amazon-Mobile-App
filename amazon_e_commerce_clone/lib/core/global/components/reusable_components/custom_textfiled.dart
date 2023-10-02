@@ -1,3 +1,4 @@
+import 'package:amazon_e_commerce_clone/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -40,9 +41,9 @@ class CustomTextField extends StatelessWidget {
       decoration: decoration ??
            InputDecoration(
             border: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black38)),
+                borderSide: BorderSide(color: AppColors.black38)),
             enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black38)),
+                borderSide: BorderSide(color: AppColors.black38)),
             hintText: hintText,
           ),
       validator: validator,

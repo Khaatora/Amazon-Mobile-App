@@ -1,17 +1,21 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:amazon_e_commerce_clone/features/auth/models/login/login_response.dart';
-import 'package:amazon_e_commerce_clone/features/auth/models/signup/signup_response.dart';
+import 'package:amazon_e_commerce_clone/core/features/main/model/response_models/update_user_address_response.dart';
+import 'package:amazon_e_commerce_clone/core/features/main/repository/i_main_repository.dart';
+import 'package:amazon_e_commerce_clone/features/auth/models/response_models/login_response.dart';
+import 'package:amazon_e_commerce_clone/features/auth/models/response_models/signup_response.dart';
 import 'package:amazon_e_commerce_clone/features/auth/repository/i_auth_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../constants/api_paths.dart';
 import '../../../errors/exceptions/api/login_exceptions.dart';
 import '../../../errors/exceptions/server_exception.dart';
 import '../../../services/services_locator.dart';
-import 'get_user_data_response.dart';
+import 'response_models/get_user_data_response.dart';
 
+@immutable
 abstract class RemoteDataSource{
   Future<LoginResponse> login(LoginParams params);
 
@@ -19,15 +23,23 @@ abstract class RemoteDataSource{
 
   Future<GetUserDataResponse> verifyToken(String token);
 
+  Future<UpdateUserAddressResponse> updateAddress(UpdateUserAddressParams params,String token);
+
+
+  const RemoteDataSource();
 }
 
+@immutable
 class APIRemoteDataSource implements RemoteDataSource{
+
+  const APIRemoteDataSource();
+
   @override
   Future<LoginResponse> login(LoginParams params) async {
     try {
       final response = await sl<Dio>().post(ApiPaths.signinUrl(),data: jsonEncode(params.toJson()));
       return LoginResponse.fromJson(response.data);
-    } on DioError catch(error){
+    } on DioException catch(error){
       switch(error.response!.statusCode){
         case 400:
           throw InvalidCredentialsException(error.response?.data["msg"]);
@@ -49,7 +61,7 @@ class APIRemoteDataSource implements RemoteDataSource{
       final response = await sl<Dio>().post(ApiPaths.verifyTokenUrl(), options: Options(
         headers: {
           Headers.contentTypeHeader: "application/json; charset=UTF-8",
-          "x-auth-token": token,
+          "x-auth-token" :token,
         }
       ));
       if(response.data){
@@ -65,16 +77,16 @@ class APIRemoteDataSource implements RemoteDataSource{
       else{
         throw const InvalidTokenException();
       }
-    } on DioError catch(error){
+    } on DioException catch(error){
       log("code: ${error.response?.statusCode},message: ${error.message},type: ${error.type}, stacktrace: ${error.stackTrace}");
-      if(error.type == DioErrorType.connectionTimeout){
+      if(error.type == DioExceptionType.connectionTimeout){
         throw const InternalServerException("Can't connect to servers at the moment, please try again later");
       }
       switch(error.response?.statusCode){
         case 500:
           throw InternalServerException(error.response?.data["error"]);
         default:
-          throw const GenericAPIException();
+          throw GenericAPIException(error.response?.headers.value("WWW-Authenticate") ?? "something went wrong");
       }
     }
     catch (e) {
@@ -88,7 +100,28 @@ class APIRemoteDataSource implements RemoteDataSource{
     try {
       final response = await sl<Dio>().post(ApiPaths.signupUrl(),data: jsonEncode(params.toJson()));
       return SignupResponse.fromJson(response.data);
-    } on DioError catch(error){
+    } on DioException catch(error){
+      switch(error.response!.statusCode){
+        case 400:
+          throw InvalidCredentialsException(error.response?.data["msg"]);
+        case 500:
+          throw InternalServerException(error.response?.data["error"]);
+        default:
+          throw const GenericAPIException();
+      }
+    }
+    catch (e) {
+      log("$e");
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UpdateUserAddressResponse> updateAddress(UpdateUserAddressParams params, String token) async {
+    try {
+      final response = await sl<Dio>().post(ApiPaths.updateUserAddressUrl(),data: jsonEncode(params.toJson()));
+      return UpdateUserAddressResponse.fromJson(response.data);
+    } on DioException catch(error){
       switch(error.response!.statusCode){
         case 400:
           throw InvalidCredentialsException(error.response?.data["msg"]);

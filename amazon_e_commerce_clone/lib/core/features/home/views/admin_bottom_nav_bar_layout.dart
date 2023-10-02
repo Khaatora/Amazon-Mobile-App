@@ -1,7 +1,10 @@
+import 'package:amazon_e_commerce_clone/core/constants/app_routes.dart';
+import 'package:amazon_e_commerce_clone/core/features/main/view_model/main_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../constants/app_colors.dart';
 import '../../../services/services_locator.dart';
+import '../../../utils/dialogs/generic_dialog.dart';
 import '../../../utils/enums.dart';
 import '../viewmodels/admin_bottom_nav_bar_layout_cubit.dart';
 
@@ -11,7 +14,13 @@ class AdminBottomNavBarLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<AdminBottomNavBarLayoutCubit>(),
+      create: (context) {
+        if (!sl.isRegistered<AdminBottomNavBarLayoutCubit>()) {
+          sl.registerLazySingleton<AdminBottomNavBarLayoutCubit>(
+              () => AdminBottomNavBarLayoutCubit());
+        }
+        return sl<AdminBottomNavBarLayoutCubit>();
+      },
       child: const BottomNavBarView(),
     );
   }
@@ -42,27 +51,40 @@ class BottomNavBarView extends StatelessWidget {
                 ),
               ),
               PopupMenuButton<MenuItem>(
-                onSelected: (value) {
-                  switch (value) {
-                    case MenuItem.wishlists:
-                      break;
-                    case MenuItem.logout:
-                      break;
-                  }
-                },
+                // onSelected: (value) {
+                //   switch (value) {
+                //     case MenuItem.wishlists:
+                //       break;
+                //     case MenuItem.logout:
+                //       break;
+                //   }
+                // },
                 itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: MenuItem.wishlists,
-                    child: Row(
-                      children: [
-                        const Icon(Icons.shopping_bag_outlined),
-                        const Spacer(),
-                        Text(MenuItem.wishlists.name),
-                      ],
-                    ),
-                  ),
+                  // PopupMenuItem(
+                  //   value: MenuItem.wishlists,
+                  //   child: Row(
+                  //     children: [
+                  //       const Icon(Icons.shopping_bag_outlined),
+                  //       const Spacer(),
+                  //       Text(MenuItem.wishlists.name),
+                  //     ],
+                  //   ),
+                  // ),
                   PopupMenuItem(
                     value: MenuItem.logout,
+                    onTap: () async => await showGenericDialog<bool>(
+                      context: context,
+                      content: "Are you sure you want to log out?",
+                      title: "Log Out",
+                      optionsBuilder: () => {
+                        "log out": true,
+                        "Cancel": false,
+                      },
+                    ).then((value) {
+                      if (value ?? false) {
+                        MainCubit.get(context).signOut(() => Navigator.pushNamedAndRemoveUntil(context, AppRoutes.authScreen, (route) => false),);
+                      }
+                    }),
                     child: Row(
                       children: [
                         const Icon(Icons.logout_outlined),
@@ -83,13 +105,14 @@ class BottomNavBarView extends StatelessWidget {
                     "assets/images/amazon_in.png",
                     width: 120,
                     height: 45,
-                    color: Colors.black,
+                    color: AppColors.black,
                   ),
                 ),
               ],
             ),
           ),
-          body: AdminBottomNavBarLayoutCubit.get(context).pages[state.currentIndex],
+          body: AdminBottomNavBarLayoutCubit.get(context)
+              .pages[state.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
               currentIndex: state.currentIndex,
               selectedItemColor: AppColors.selectedNavBarColor,
@@ -134,18 +157,18 @@ class BottomNavBarView extends StatelessWidget {
                       )),
                 ),
                 //Orders
-                BottomNavigationBarItem (
+                BottomNavigationBarItem(
                   label: AdminBottomNavScreen.values[2].name,
                   icon: Container(
                       width: state.bottomNavBarItemWidth,
                       decoration: BoxDecoration(
                         border: Border(
                             top: BorderSide(
-                              color: state.currentIndex == 2
-                                  ? AppColors.selectedNavBarColor
-                                  : AppColors.backgroundColor,
-                              width: state.bottomNavBarItemBorderWidth,
-                            )),
+                          color: state.currentIndex == 2
+                              ? AppColors.selectedNavBarColor
+                              : AppColors.backgroundColor,
+                          width: state.bottomNavBarItemBorderWidth,
+                        )),
                       ),
                       child: const Icon(
                         Icons.all_inbox_outlined,
