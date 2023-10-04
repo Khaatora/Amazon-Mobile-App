@@ -1,5 +1,8 @@
 import 'package:amazon_e_commerce_clone/features/admin/analytics/view/analytics_screen.dart';
+import 'package:amazon_e_commerce_clone/features/admin/analytics/viewmodels/analytics_cubit.dart';
 import 'package:amazon_e_commerce_clone/features/admin/orders/view/orders_screen.dart';
+import 'package:amazon_e_commerce_clone/features/admin/orders/viewmodels/orders_cubit.dart';
+import 'package:amazon_e_commerce_clone/features/admin/products/viewmodels/products_cubit.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +33,9 @@ class AdminBottomNavBarLayoutCubit extends Cubit<AdminBottomNavBarLayoutState> {
   @override
   Future<void> close() {
     sl.unregister<AdminBottomNavBarLayoutCubit>();
+    sl<ProductsCubit>().close();
+    sl<OrdersCubit>().close();
+    sl<AnalyticsCubit>().close();
     return super.close();
   }
 }

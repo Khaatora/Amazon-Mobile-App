@@ -20,10 +20,7 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: (sl.isRegistered<ProductsCubit>()
-          ? sl<ProductsCubit>()
-          : sl.registerSingleton(ProductsCubit(sl()))
-        ..getProducts(MainCubit.get(context).state.user.token)),
+      value: sl<ProductsCubit>(),
       child: const ProductsView(),
     );
   }

@@ -9,8 +9,6 @@ import 'package:amazon_e_commerce_clone/features/admin/analytics/viewmodels/anal
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../core/services/services_locator.dart';
 import '../../../../core/utils/enums.dart';
 
 class AnalyticsScreen extends StatelessWidget {
@@ -18,13 +16,7 @@ class AnalyticsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: (sl.isRegistered<AnalyticsCubit>()
-          ? sl<AnalyticsCubit>()
-          : sl.registerSingleton<AnalyticsCubit>(AnalyticsCubit(sl())))
-        ..initState(MainCubit.get(context).state.user.token),
-      child: const AnalyticsView(),
-    );
+    return const AnalyticsView();
   }
 }
 

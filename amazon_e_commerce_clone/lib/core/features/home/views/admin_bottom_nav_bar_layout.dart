@@ -2,6 +2,9 @@ import 'package:amazon_e_commerce_clone/core/constants/app_routes.dart';
 import 'package:amazon_e_commerce_clone/core/features/main/view_model/main_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../features/admin/analytics/viewmodels/analytics_cubit.dart';
+import '../../../../features/admin/orders/viewmodels/orders_cubit.dart';
+import '../../../../features/admin/products/viewmodels/products_cubit.dart';
 import '../../../constants/app_colors.dart';
 import '../../../services/services_locator.dart';
 import '../../../utils/dialogs/generic_dialog.dart';
@@ -13,14 +16,27 @@ class AdminBottomNavBarLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        if (!sl.isRegistered<AdminBottomNavBarLayoutCubit>()) {
-          sl.registerLazySingleton<AdminBottomNavBarLayoutCubit>(
-              () => AdminBottomNavBarLayoutCubit());
-        }
-        return sl<AdminBottomNavBarLayoutCubit>();
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) {
+            if (!sl.isRegistered<AdminBottomNavBarLayoutCubit>()) {
+              sl.registerLazySingleton<AdminBottomNavBarLayoutCubit>(
+                  () => AdminBottomNavBarLayoutCubit());
+            }
+            return sl<AdminBottomNavBarLayoutCubit>();
+          },
+        ),
+        BlocProvider.value(
+            value: sl.registerSingleton(ProductsCubit(sl()))
+              ..getProducts(MainCubit.get(context).state.user.token)),
+        BlocProvider.value(
+            value: sl.registerSingleton<AnalyticsCubit>(AnalyticsCubit(sl()))
+              ..initState(MainCubit.get(context).state.user.token)),
+        BlocProvider.value(
+            value: sl.registerSingleton(OrdersCubit(sl()))
+              ..initState(MainCubit.get(context).state.user.token)),
+      ],
       child: const BottomNavBarView(),
     );
   }
@@ -82,7 +98,10 @@ class BottomNavBarView extends StatelessWidget {
                       },
                     ).then((value) {
                       if (value ?? false) {
-                        MainCubit.get(context).signOut(() => Navigator.pushNamedAndRemoveUntil(context, AppRoutes.authScreen, (route) => false),);
+                        MainCubit.get(context).signOut(
+                          () => Navigator.pushNamedAndRemoveUntil(
+                              context, AppRoutes.authScreen, (route) => false),
+                        );
                       }
                     }),
                     child: Row(

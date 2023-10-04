@@ -9,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/features/main/view_model/main_cubit.dart';
 import '../../../../core/global/components/reusable_components/reloader.dart';
-import '../../../../core/services/services_locator.dart';
 import '../../../../core/utils/enums.dart';
 
 class OrdersScreen extends StatelessWidget {
@@ -17,12 +16,7 @@ class OrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-        value: (sl.isRegistered<OrdersCubit>()
-            ? sl<OrdersCubit>()
-            : sl.registerSingleton(OrdersCubit(sl())))
-          ..initState(MainCubit.get(context).state.user.token),
-        child: const OrdersView());
+    return const OrdersView();
   }
 }
 
