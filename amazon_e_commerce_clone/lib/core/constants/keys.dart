@@ -8,7 +8,3 @@ class ApiKeys{
   static const String token = "x-auth-token";
   static const String cart = "cart";
 }
-
-class SharedPrefsKeys{
-
-}
