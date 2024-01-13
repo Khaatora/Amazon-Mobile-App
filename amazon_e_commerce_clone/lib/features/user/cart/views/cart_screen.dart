@@ -47,7 +47,7 @@ class _CartViewState extends State<CartView> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
+    const SizeConfig().init(context);
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),

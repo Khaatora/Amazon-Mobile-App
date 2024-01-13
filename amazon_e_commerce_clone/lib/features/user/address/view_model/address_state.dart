@@ -14,12 +14,12 @@ class AddressState extends Equatable {
   AddressState copyWith({
     List<PaymentItem>? paymentItems,
     LoadingState? loadingState,
-    String? meesage,
+    String? message,
   }) {
     return AddressState(
       paymentItems: paymentItems ?? this.paymentItems,
       loadingState: loadingState ?? this.loadingState,
-      message: meesage ?? this.message,
+      message: message ?? this.message,
     );
   }
 
