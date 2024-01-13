@@ -104,6 +104,7 @@ adminRouter.get('/api/admin/analytics', admin, async  (req, res)=> {
 
         res.json({data: earnings});
     }catch(e){
+        
         console.log(e.toString());
         res.status(500).json({error: e.message});
     }
