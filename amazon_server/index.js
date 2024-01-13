@@ -10,7 +10,7 @@ const productRouter = require('./routes/products');
 const userRouter = require('./routes/user');
 
 //initializations
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const app = new express();
 const DBUrl = "mongodb+srv://ahosari20:a01129376126@cluster0.frvxonk.mongodb.net/?retryWrites=true&w=majority";
 
