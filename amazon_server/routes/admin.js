@@ -3,6 +3,7 @@ const adminRouter = express.Router();
 const admin = require('../middlewares/admin');
 const {Product} = require('../models/product');
 const Order = require('../models/order');
+const Ratings = require('../models/ratings');
 
 // Add Product
 adminRouter.post('/api/admin/add-product', admin, async  (req, res)=> {
@@ -14,7 +15,8 @@ adminRouter.post('/api/admin/add-product', admin, async  (req, res)=> {
             images,
             quantity,
             price,
-            category
+            category,
+            ratings: []
         });
         product = await product.save();
         res.json(product);

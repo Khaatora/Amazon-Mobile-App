@@ -64,13 +64,10 @@ productRouter.get('/api/deal-of-the-day', auth, async  (req, res)=> {
       products.sort((a, b) =>{
         let aSum = 0;
         let bSum = 0;
-        console.log(`product a ratings length: ${a.ratings.length}, product b ratings length: ${b.ratings.length}`)
         for(let i =0; i<a.ratings.length; i++){
-          console.log(a.name);
           aSum+= a.ratings[i].rating;
         }
         for(let i =0; i<b.ratings.length; i++){
-          console.log(b.name);
           bSum+= b.ratings[i].rating;
         }
         return aSum < bSum ? 1 : -1;
