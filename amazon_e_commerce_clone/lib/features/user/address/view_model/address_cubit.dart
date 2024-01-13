@@ -38,7 +38,7 @@ class AddressCubit extends Cubit<AddressState> {
     result.fold((l) {
       emit(state.copyWith(
         loadingState: LoadingState.error,
-        meesage: l.message,
+        message: l.message,
       ));
     }, (r) {
       emit(state.copyWith(loadingState: LoadingState.loaded));
@@ -49,7 +49,7 @@ class AddressCubit extends Cubit<AddressState> {
   void showError(String message) {
     emit(state.copyWith(
       loadingState: LoadingState.error,
-      meesage: message,
+      message: message,
     ));
   }
 }
